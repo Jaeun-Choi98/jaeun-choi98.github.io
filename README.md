@@ -1,5 +1,6 @@
-# Bay
+# Link My [Web](https://jaeun-choi98.github.io/) using Bay Theme
 
+## Explain Bay theme 
 [![Version](https://img.shields.io/gem/v/bay_jekyll_theme)](https://rubygems.org/gems/bay_jekyll_theme)
 [![Downloads](https://img.shields.io/gem/dt/bay_jekyll_theme)](https://rubygems.org/gems/bay_jekyll_theme)
 
