@@ -15,5 +15,5 @@ profile_picture:
 </p>
 
 <p>
-  This site is made by using jekyll-theme-bay. If you're interested in the teme, click <a href="https://github.com/eliottvincent/bay">here</a>.
+  This site is made by using jekyll-theme-bay. If you're interested in the theme, click <a href="https://github.com/eliottvincent/bay">here</a>.
 </p>
