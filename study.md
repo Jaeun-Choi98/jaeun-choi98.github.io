@@ -1,8 +1,8 @@
 ---
 layout: blog
-title: Study Books
+title: Study Board
 slug: /study
 ---
 
-This is a "Study Books" page, displaying a list of my study.
+This is a "Study Board" page, displaying a list of my study.
 <br />
