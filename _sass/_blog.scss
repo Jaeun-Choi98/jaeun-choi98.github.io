@@ -4,7 +4,8 @@
     color: #777;
     display: block;
     float: left;
-
+    
+  
     @include media-query($on-mobile) {
       display: block;
       float: none;
@@ -17,5 +18,11 @@
   .blog-post-title {
     font-size: 100%;
     letter-spacing: normal;
+  }
+  
+  .blog-post-content{
+    font-size: 85%;
+    margin-top: 5px;
+    color: gray;
   }
 }
