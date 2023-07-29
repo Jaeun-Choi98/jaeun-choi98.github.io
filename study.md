@@ -3,6 +3,5 @@ layout: blog
 title: Study Board
 slug: /study
 ---
+Tags
 
-This is a "Study Board" page, displaying a list of my study.
-<br />

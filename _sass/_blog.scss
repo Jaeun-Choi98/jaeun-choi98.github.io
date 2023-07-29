@@ -26,3 +26,24 @@
     color: gray;
   }
 }
+
+/* 태그 목록 */
+.current-tags {
+  margin-top: 15px;
+}
+
+.tag-list {
+  list-style: none;
+  padding: 0;
+  margin-left: 0;
+  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-item {
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  padding: 5px 10px;
+}

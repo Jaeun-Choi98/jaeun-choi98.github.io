@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Git&GitHub"
+tags: ["Git","GitHub"]
 date:   2023-07-16 11:50:00
 #blurb: "A look at an example post using Bay Jekyll theme."
 og_image: /assets/img/content/git&github/git_github_img.jpg
