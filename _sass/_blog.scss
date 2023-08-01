@@ -43,6 +43,7 @@
 }
 
 .tag-item {
+  cursor: pointer;
   background-color: #f2f2f2;
   border-radius: 4px;
   padding: 5px 10px;
@@ -73,4 +74,27 @@
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: scale(1.2);
+}
+
+
+/* 페이지 버튼 스타일 추가 */
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #333;
+  padding: 5px 10px;
+}
+
+.pagination button.active {
+  background-color: #f2f2f2;
+  color: #333;
 }

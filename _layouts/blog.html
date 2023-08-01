@@ -37,6 +37,11 @@
               {% endif %}
             {% endfor %}
           </div>
+          <div class="pagination">
+            <button onclick="showPrevPage()">Prev</button>
+            <div class="page-numbers"></div>
+            <button onclick="showNextPage()">Next</button>
+          </div>
         </div>
       </div>
     </div>
@@ -46,6 +51,73 @@
     {% include foot.html %}
     
     <script>
+
+      var postsPerPage = 5; // 페이지당 게시물 수
+      var currentPage = 1; // 현재 페이지
+
+      function showPage(pageNumber) {
+        var blogPostList = document.getElementsByClassName("blog-post-list")[0];
+        var blogPosts = blogPostList.getElementsByClassName("blog-post");
+        var startIndex = (pageNumber - 1) * postsPerPage;
+        var endIndex = startIndex + postsPerPage;
+
+        for (var i = 0; i < blogPosts.length; i++) {
+          if (i >= startIndex && i < endIndex) {
+            blogPosts[i].style.display = "block";
+            fadeIn(blogPosts[i]);
+          } else {
+            blogPosts[i].style.display = "none";
+          }
+        }
+      }
+
+      function showPrevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+          updatePageNumbers();
+        }
+      }
+
+      function showNextPage() {
+        var totalPosts = document.getElementsByClassName("blog-post").length;
+        var totalPages = Math.ceil(totalPosts / postsPerPage);
+
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+          updatePageNumbers();
+        }
+      }
+
+      function updatePageNumbers() {
+        var totalPosts = document.getElementsByClassName("blog-post").length;
+        var totalPages = Math.ceil(totalPosts / postsPerPage);
+        var pageNumbersContainer = document.querySelector(".page-numbers");
+        pageNumbersContainer.innerHTML = "";
+
+        for (var i = 1; i <= totalPages; i++) {
+          var pageNumberElement = document.createElement("button");
+          pageNumberElement.textContent = i;
+          pageNumberElement.onclick = function () {
+            currentPage = parseInt(this.textContent);
+            showPage(currentPage);
+            updatePageNumbers();
+          };
+
+          if (i === currentPage) {
+            pageNumberElement.classList.add("active");
+          }
+
+          pageNumbersContainer.appendChild(pageNumberElement);
+        }
+      }
+
+      // 초기 페이지 로딩 시 첫 페이지 보여주기
+      showPage(currentPage);
+      updatePageNumbers();
+
+      // 애니메이션 효과 추가
       function fadeIn(element) {
         var opacity = 0;
         var interval = setInterval(function () {
