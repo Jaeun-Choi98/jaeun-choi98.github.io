@@ -24,7 +24,7 @@
           <div class="blog-post-list">
             {% for post in site.posts %}
               {% if post.draft != true %}
-                <div class="blog-post" data-tags="{% for tag in post.tags %}{{ tag }}{% if forloop.last %}{% else %},{% endif %}{% endfor %}">
+                <div class="blog-post hidden" data-tags="{% for tag in post.tags %}{{ tag }}{% if forloop.last %}{% else %},{% endif %}{% endfor %}">
                   <span class="blog-post-date">{{ post.date | date: "%-m/%-d, %Y" }}</span>
                   <a href="{{ post.url | replace:".html","" | prepend: site.baseurl }}" class="blog-post-title">
                     {{ post.title }}
@@ -46,30 +46,65 @@
     {% include foot.html %}
     
     <script>
+      function fadeIn(element) {
+        var opacity = 0;
+        var interval = setInterval(function () {
+          if (opacity < 1) {
+            opacity += 0.1;
+            element.style.opacity = opacity;
+          } else {
+            clearInterval(interval);
+          }
+        }, 100);
+      }
+
       function showAllPosts() {
         var blogPostList = document.getElementsByClassName("blog-post-list")[0];
         var blogPosts = blogPostList.getElementsByClassName("blog-post");
-        
-        // 모든 게시물 보이도록 설정
+
         for (var i = 0; i < blogPosts.length; i++) {
           blogPosts[i].style.display = "block";
+          fadeIn(blogPosts[i]);
         }
       }
-      
+
       function showPosts(tag) {
         var blogPostList = document.getElementsByClassName("blog-post-list")[0];
         var blogPosts = blogPostList.getElementsByClassName("blog-post");
-        
-        // 모든 게시물 숨기기
+
         for (var i = 0; i < blogPosts.length; i++) {
           blogPosts[i].style.display = "none";
         }
-        
-        // 선택된 태그를 포함하는 게시물만 보이도록 설정
+
         var selectedPosts = blogPostList.querySelectorAll('[data-tags*="' + tag + '"]');
         for (var j = 0; j < selectedPosts.length; j++) {
           selectedPosts[j].style.display = "block";
+          fadeIn(selectedPosts[j]);
         }
+      }
+
+      // 웹 페이지가 로딩되면 처음 로딩 시에도 페이드 인 효과를 적용
+      window.onload = function () {
+        showAllPosts();
+      };
+
+      // 태그 버튼 클릭 시에 애니메이션 효과 적용
+      var tagItems = document.querySelectorAll(".tag-item");
+      for (var i = 0; i < tagItems.length; i++) {
+        tagItems[i].addEventListener("click", function () {
+          this.classList.add("button-animation");
+          setTimeout(function () {
+            this.classList.remove("button-animation");
+          }.bind(this), 1000);
+        });
+
+        tagItems[i].addEventListener("mouseenter", function () {
+          this.classList.add("button-hover");
+        });
+
+        tagItems[i].addEventListener("mouseleave", function () {
+          this.classList.remove("button-hover");
+        });
       }
     </script>
   </body>

@@ -47,3 +47,30 @@
   border-radius: 4px;
   padding: 5px 10px;
 }
+
+
+/* 태그 버튼에 애니메이션 효과를 위한 CSS */
+.button-animation {
+  animation: pulse 1s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button-hover {
+  /* 원하는 hover 스타일을 여기에 추가 */
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.2);
+}
