@@ -8,15 +8,15 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="blog">
-          <h1 class="page-heading"><em><strong>{{ page.title}}</strong></em></h1>
+          <h1 class="page-heading"><em><strong>{{ page.title }}</strong></em></h1>
           <em>{{ content }}</em>
 
           <!-- 현재 tag 목록 나열 -->
           <div class="current-tags">
             <ul class="tag-list">
-              <li class="tag-item" onclick="showAllPosts()">Total({{site.posts.size}})</li>
+              <li class="tag-item" data-tag="" onclick="showAllPosts()">Total({{ site.posts.size }})</li>
               {% for tag in site.tags %}
-                <li class="tag-item" onclick="showPosts('{{ tag[0] }}')">{{ tag[0] }}({{ tag[1].size }})</li>
+                <li class="tag-item" data-tag="{{ tag[0] }}" onclick="showPosts('{{ tag[0] }}')">{{ tag[0] }}({{ tag[1].size }})</li>
               {% endfor %}
             </ul>
           </div>
@@ -49,135 +49,147 @@
     {% include footer.html %}
 
     {% include foot.html %}
+
     
-    <script>
+  <script>
+    var postsPerPage = 4; // 페이지당 게시물 수
+    var currentPage = 1; // 현재 페이지
+    var selectedTag = null; // 선택된 태그
 
-      var postsPerPage = 5; // 페이지당 게시물 수
-      var currentPage = 1; // 현재 페이지
+    function showPage(pageNumber) {
+      var blogPostList = document.getElementsByClassName("blog-post-list")[0];
+      var blogPosts = blogPostList.getElementsByClassName("blog-post");
+      var startIndex = (pageNumber - 1) * postsPerPage;
+      var endIndex = startIndex + postsPerPage;
+      var visiblePosts = 0; // 보이는 게시물 개수
 
-      function showPage(pageNumber) {
-        var blogPostList = document.getElementsByClassName("blog-post-list")[0];
-        var blogPosts = blogPostList.getElementsByClassName("blog-post");
-        var startIndex = (pageNumber - 1) * postsPerPage;
-        var endIndex = startIndex + postsPerPage;
-
-        for (var i = 0; i < blogPosts.length; i++) {
-          if (i >= startIndex && i < endIndex) {
+      for (var i = 0; i < blogPosts.length; i++) {
+        var postTags = blogPosts[i].dataset.tags.split(",");
+        if (!selectedTag || postTags.includes(selectedTag)) {
+          if (visiblePosts >= startIndex && visiblePosts < endIndex) {
             blogPosts[i].style.display = "block";
             fadeIn(blogPosts[i]);
           } else {
             blogPosts[i].style.display = "none";
           }
-        }
-      }
-
-      function showPrevPage() {
-        if (currentPage > 1) {
-          currentPage--;
-          showPage(currentPage);
-          updatePageNumbers();
-        }
-      }
-
-      function showNextPage() {
-        var totalPosts = document.getElementsByClassName("blog-post").length;
-        var totalPages = Math.ceil(totalPosts / postsPerPage);
-
-        if (currentPage < totalPages) {
-          currentPage++;
-          showPage(currentPage);
-          updatePageNumbers();
-        }
-      }
-
-      function updatePageNumbers() {
-        var totalPosts = document.getElementsByClassName("blog-post").length;
-        var totalPages = Math.ceil(totalPosts / postsPerPage);
-        var pageNumbersContainer = document.querySelector(".page-numbers");
-        pageNumbersContainer.innerHTML = "";
-
-        for (var i = 1; i <= totalPages; i++) {
-          var pageNumberElement = document.createElement("button");
-          pageNumberElement.textContent = i;
-          pageNumberElement.onclick = function () {
-            currentPage = parseInt(this.textContent);
-            showPage(currentPage);
-            updatePageNumbers();
-          };
-
-          if (i === currentPage) {
-            pageNumberElement.classList.add("active");
-          }
-
-          pageNumbersContainer.appendChild(pageNumberElement);
-        }
-      }
-
-      // 초기 페이지 로딩 시 첫 페이지 보여주기
-      showPage(currentPage);
-      updatePageNumbers();
-
-      // 애니메이션 효과 추가
-      function fadeIn(element) {
-        var opacity = 0;
-        var interval = setInterval(function () {
-          if (opacity < 1) {
-            opacity += 0.1;
-            element.style.opacity = opacity;
-          } else {
-            clearInterval(interval);
-          }
-        }, 100);
-      }
-
-      function showAllPosts() {
-        var blogPostList = document.getElementsByClassName("blog-post-list")[0];
-        var blogPosts = blogPostList.getElementsByClassName("blog-post");
-
-        for (var i = 0; i < blogPosts.length; i++) {
-          blogPosts[i].style.display = "block";
-          fadeIn(blogPosts[i]);
-        }
-      }
-
-      function showPosts(tag) {
-        var blogPostList = document.getElementsByClassName("blog-post-list")[0];
-        var blogPosts = blogPostList.getElementsByClassName("blog-post");
-
-        for (var i = 0; i < blogPosts.length; i++) {
+          visiblePosts++;
+        } else {
           blogPosts[i].style.display = "none";
         }
+      }
+    }
 
-        var selectedPosts = blogPostList.querySelectorAll('[data-tags*="' + tag + '"]');
-        for (var j = 0; j < selectedPosts.length; j++) {
-          selectedPosts[j].style.display = "block";
-          fadeIn(selectedPosts[j]);
+    function showPrevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+        updatePageNumbers();
+      }
+    }
+
+    function showNextPage() {
+      var totalPosts = document.getElementsByClassName("blog-post").length;
+      var totalPages = Math.ceil(totalPosts / postsPerPage);
+
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+        updatePageNumbers();
+      }
+    }
+
+    function updatePageNumbers() {
+      var totalPosts = document.getElementsByClassName("blog-post").length;
+      var totalPages = Math.ceil(totalPosts / postsPerPage);
+      var pageNumbersContainer = document.querySelector(".page-numbers");
+      pageNumbersContainer.innerHTML = "";
+
+      for (var i = 1; i <= totalPages; i++) {
+        var pageNumberElement = document.createElement("button");
+        pageNumberElement.textContent = i;
+        pageNumberElement.onclick = function () {
+          currentPage = parseInt(this.textContent);
+          showPage(currentPage);
+          updatePageNumbers();
+        };
+
+        if (i === currentPage) {
+          pageNumberElement.classList.add("active");
+        }
+
+        pageNumbersContainer.appendChild(pageNumberElement);
+      }
+    }
+
+    // 초기 페이지 로딩 시 첫 페이지 보여주기
+    showPage(currentPage);
+    updatePageNumbers();
+
+    // 애니메이션 효과 추가
+    function fadeIn(element) {
+      var opacity = 0;
+      var interval = setInterval(function () {
+        if (opacity < 1) {
+          opacity += 0.1;
+          element.style.opacity = opacity;
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
+    }
+
+    function showAllPosts() {
+      selectedTag = null;
+      currentPage = 1;
+      showPage(currentPage);
+      setActivePageButton(currentPage);
+    }
+
+    function showPosts(tag) {
+      selectedTag = tag;
+      currentPage = 1;
+      showPage(currentPage);
+      setActivePageButton(currentPage);
+    }
+
+    // 첫 번째 페이지 버튼을 액티브 상태로 변경하는 함수
+    function setActivePageButton(pageNumber) {
+      var pageButtons = document.querySelectorAll(".page-numbers button");
+      for (var i = 0; i < pageButtons.length; i++) {
+        if (parseInt(pageButtons[i].textContent) === pageNumber) {
+          pageButtons[i].classList.add("active");
+        } else {
+          pageButtons[i].classList.remove("active");
         }
       }
+    }
 
-      // 웹 페이지가 로딩되면 처음 로딩 시에도 페이드 인 효과를 적용
-      window.onload = function () {
-        showAllPosts();
-      };
+    // 웹 페이지가 로딩되면 처음 로딩 시에도 페이드 인 효과를 적용
+    window.onload = function () {
+      showAllPosts();
+    };
 
-      // 태그 버튼 클릭 시에 애니메이션 효과 적용
-      var tagItems = document.querySelectorAll(".tag-item");
-      for (var i = 0; i < tagItems.length; i++) {
-        tagItems[i].addEventListener("click", function () {
-          this.classList.add("button-animation");
-          setTimeout(function () {
-            this.classList.remove("button-animation");
-          }.bind(this), 1000);
-        });
+    // 태그 버튼 클릭 시에 애니메이션 효과 적용
+    var tagItems = document.querySelectorAll(".tag-item");
+    for (var i = 0; i < tagItems.length; i++) {
+      tagItems[i].addEventListener("click", function () {
+        var tag = this.dataset.tag;
+        showPosts(tag);
+        this.classList.add("button-animation");
+        setTimeout(function () {
+          this.classList.remove("button-animation");
+        }.bind(this), 1000);
+      });
 
-        tagItems[i].addEventListener("mouseenter", function () {
-          this.classList.add("button-hover");
-        });
+      tagItems[i].addEventListener("mouseenter", function () {
+        this.classList.add("button-hover");
+      });
 
-        tagItems[i].addEventListener("mouseleave", function () {
-          this.classList.remove("button-hover");
-        });
-      }
-    </script>
-  </body>
+      tagItems[i].addEventListener("mouseleave", function () {
+        this.classList.remove("button-hover");
+      });
+    }
+    
+  </script>
+</body>
 </html>
