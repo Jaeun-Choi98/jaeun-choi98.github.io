@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Linux sed And awk"
+title:  "Linux_utils_sed&awk"
 tags: "linux"
 date:   2023-10-10 00:00:00
 ---
