@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Socket Programming"
-tags: "socket, network"
+tags: "socket network"
 date:   2023-11-10 00:00:00
 ---
 
