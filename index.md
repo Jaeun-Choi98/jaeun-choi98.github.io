@@ -9,9 +9,12 @@ profile_picture:
   Hello! My name is Jaeun who wants to be a competent developer.
   I think it is important to learn step by step.
   So, i aim to studying what I don't know slowly every day.
-  So far, i have studied spring framework, html, css. Finally, i made a <a href="https://github.com/Jaeun-Choi98/Introduce-web">web</a> that introduces me. 
-  Recently, i'm interested in studying Linux platform and Server.
-  Therefore, i am going to study them by reading related books.
+  <br>
+  I try to learn new technologies and apply them to produce better outcomes. 
+  Valuing diverse experiences, I aim for continuous growth.
+  <br>
+  Lastly, i value smooth communication with team members.
+  Share ideas, collaborate, solve problems effectively, and strive to achieve your team's goals.
 </p>
 
 <p>
