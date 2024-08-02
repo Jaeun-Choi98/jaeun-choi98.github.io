@@ -72,13 +72,13 @@ PBR은 물리 기반 렌더링으로, 빛이 물체 표면에 반사되는 경�
 
 유니티 엔진에서 게임 오브젝트를 이동시키는 방법에는 여러 가지가 있습니다. 주요 방법으로는 RigidBody를 사용하는 방법, Character Controller를 사용하는 방법, Transform을 사용하는 방법, 네비게이션 AI(Nav Mesh Agent)를 사용하는 방법이 있습니다.
 
-RigidBody를 사용하는 방법은 물리 엔진을 통해 게임 오브젝트를 이동시키는 방법입니다. 이 방법은 물리 법칙을 따르므로 중력, 충돌 등의 물리 효과를 자연스럽게 구현할 수 있습니다. RigidBody를 사용하여 이동시키려면 AddForce, MovePosition, velocity 등의 속성을 사용합니다.
+RigidBody를 사용하는 방법은 물리 엔진을 통해 게임 오브젝트를 이동시키는 방법입니다. 이 방법은 물리 법칙을 따르므로 중력, 충돌 등의 물리 효과를 자연스럽게 구현할 수 있습니다. RigidBody를 사용하여 이동시키려면 AddForce, MovePosition, velocity 등의 속성이나 메서드를 사용합니다.
 
 Transform을 사용하는 방법은 게임 오브젝트의 위치, 회전, 크기를 직접 조작하는 방법입니다. 이 방법은 가장 직관적이고 간단하지만, 물리적 상호작용이 필요하지 않은 경우에 적합합니다. Transform을 사용하여 이동시키려면 transform.position이나 transform.Translate 등을 사용합니다.
 
 네비게이션 AI(Nav Mesh Agent)를 사용하는 방법은 AI를 활용하여 게임 오브젝트를 이동시키는 방법입니다. 이 방법은 주로 경로 찾기와 자동 이동을 구현할 때 사용됩니다. Nav Mesh를 생성하고 Nav Mesh Agent를 게임 오브젝트에 추가하여 이동 경로를 설정하고, SetDestination 메서드를 사용하여 목적지로 이동시킵니다.
 
-Character Controller를 사용하는 방법은 캐릭터의 이동과 충돌을 간단하게 처리하는 데 사용됩니다. 이 방법은 주로 플레이어 캐릭터의 이동에 적합합니다. Character Controller를 사용하여 이동시키려면 Move나 SimpleMove 메서드를 사용합니다. 이 방법은 물리 효과를 사용하지 않으며, 중력이나 충돌 처리는 Character Controller가 자체적으로 처리합니다.
+Character Controller를 사용하는 방법은 캐릭터의 이동과 충돌을 간단하게 처리하는 데 사용됩니다. 이 방법은 주로 플레이어 물리 작용이 잘 쓰이지 않는 캐릭터의 이동에 적합합니다. Character Controller를 사용하여 이동시키려면 Move나 SimpleMove 메서드를 사용합니다. 이 방법은 물리 효과를 사용하지 않으며, 충돌 처리는 Character Controller가 자체적으로 처리합니다. 하지만, 중력 처리는 직접 구현해야합니다.
 
 <br>
 <br>
