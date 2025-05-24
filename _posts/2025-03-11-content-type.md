@@ -209,10 +209,68 @@ func textHandler(w http.ResponseWriter, r *http.Request) {
 
 📤 요청 예시 (Request Body - 간략화된 예시)
 
+```go
+package main
+
+import (
+	"bytes"
+	"io"
+	"log"
+	"mime/multipart"
+	"net/http"
+	"os"
+)
+
+func main() {
+	var requestBody bytes.Buffer
+	writer := multipart.NewWriter(&requestBody)
+
+	err := writer.WriteField("key1", "value1")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	file, err := os.Open("sample.txt") // 실제 파일 열기
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	fileWriter, err := writer.CreateFormFile("upload", "sample.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = io.Copy(fileWriter, file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	writer.Close()
+
+	req, err := http.NewRequest("POST", "http://localhost:8080/upload", &requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+}
+```
+
 ```
 POST /upload HTTP/1.1
 Host: localhost:8080
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="key1"
+value1
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="upload"; filename="sample.txt"
@@ -220,7 +278,6 @@ Content-Type: text/plain
 
 (sample.txt 파일 내용)
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
-
 ```
 
 🧑‍💻 net/http 코드
